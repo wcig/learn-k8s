@@ -30,15 +30,33 @@ type MemcachedSpec struct {
 	// The following markers will use OpenAPI v3 schema to validate the value
 	// More info: https://book.kubebuilder.io/reference/markers/crd-validation.html
 
-	// foo is an example field of Memcached. Edit memcached_types.go to remove/update
+	// size defines the number of Memcached instances
+	// The following markers will use OpenAPI v3 schema to validate the value
+	// More info: https://book.kubebuilder.io/reference/markers/crd-validation.html
+	// +kubebuilder:validation:Minimum=1
+	// +kubebuilder:validation:Maximum=3
+	// +kubebuilder:validation:ExclusiveMaximum=false
 	// +optional
-	Foo *string `json:"foo,omitempty"`
+	Size *int32 `json:"size,omitempty"`
 }
 
 // MemcachedStatus defines the observed state of Memcached.
 type MemcachedStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// conditions represent the current state of the Memcached resource.
+	// Each condition has a unique type and reflects the status of a specific aspect of the resource.
+	//
+	// Standard condition types include:
+	// - "Available": the resource is fully functional.
+	// - "Progressing": the resource is being created or updated.
+	// - "Degraded": the resource failed to reach or maintain its desired state.
+	//
+	// The status of each condition is one of True, False, or Unknown.
+	// +listType=map
+	// +listMapKey=type
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
 }
 
 // +kubebuilder:object:root=true

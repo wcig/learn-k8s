@@ -102,5 +102,13 @@ $ kubebuilder init --domain=example.com --repo my.domain/memcached-operator
 $ kubebuilder create api --group cache --version v1alpha1 --kind Memcached
 ```
 
+```shell
+# 生成文件 api/v1alpha1/zz_generated.deepcopy.go
+$ make generate
+
+# config/crd/bases 目录下生成 CRD manifests，config/rbac 目录生成权限 CR，config/samples 生成示例
+$ make manifests
+```
+
 # 参考
 * [kubebuilder - Quick Start](https://book.kubebuilder.io/quick-start)
