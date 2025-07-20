@@ -92,5 +92,15 @@ $ make undeploy IMG=kubebuilder_guestbook_operator:v1.0
 
 查看CRD安装情况和创建guestbook实例参考本地调试部分。
 
+# 3. 创建kubebuilder memcached-operator项目
+
+创建项目：
+
+```shell
+$ mkdir -p kubebuilder/memcached-operator && cd kubebuilder/memcached-operator
+$ kubebuilder init --domain=example.com --repo my.domain/memcached-operator
+$ kubebuilder create api --group cache --version v1alpha1 --kind Memcached
+```
+
 # 参考
 * [kubebuilder - Quick Start](https://book.kubebuilder.io/quick-start)
