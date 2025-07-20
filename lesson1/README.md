@@ -18,6 +18,8 @@ mv ./kind $GOPATH/bin/kind
 
 ## 2. 创建k8s集群
 
+以下创建的 k8s 集群为 1 控制节点 2 工作节点，版本为 v1.31.9，并映射节点 30080 端口到本地。
+
 ```shell
 kind create cluster --config k8s/kind-config-1c2w.yaml --name 1c2w
 ```
