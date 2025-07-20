@@ -102,13 +102,66 @@ $ kubebuilder init --domain=example.com --repo my.domain/memcached-operator
 $ kubebuilder create api --group cache --version v1alpha1 --kind Memcached
 ```
 
+参照 [kubebuilder - Getting Started](https://book.kubebuilder.io/getting-started) 示例修改以下文件：
+* memcached-operator/api/v1alpha1/memcached_types.go
+* memcached-operator/internal/controller/memcached_controller.go
+* memcached-operator/config/samples/cache_v1alpha1_memcached.yaml
+
+测试验证：
+
 ```shell
 # 生成文件 api/v1alpha1/zz_generated.deepcopy.go
 $ make generate
 
 # config/crd/bases 目录下生成 CRD manifests，config/rbac 目录生成权限 CR，config/samples 生成示例
 $ make manifests
+
+# 安装CRD
+$ make install
+
+# 运行控制器
+$ make run
+```
+
+```shell
+# 镜像拉取
+$ docker pull memcached:1.6.26-alpine3.19
+
+# 加载镜像到k8s集群
+$ kind load docker-image kubebuilder_guestbook_operator:v1.0 --name=1c2w
+
+# 查看CRD
+$ kubectl get crd                                                    
+NAME                           CREATED AT
+memcacheds.cache.example.com   2025-07-20T14:16:43Z
+ 
+$ kubectl api-resources | grep -i mem  
+memcacheds                                       cache.example.com/v1alpha1        true         Memcached
+
+# 创建memcached实例
+$ kubectl apply -f config/samples/cache_v1alpha1_memcached.yaml
+
+# 查看memcached实例
+$ kubectl get memcacheds                                       
+NAME               AGE
+memcached-sample   3s
+
+# 查看memcached实例创建的deployment、pod
+$ kubectl kb get deployment
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+memcached-sample   1/1     1            1           11s
+ 
+$ kubectl get pod       
+NAME                                READY   STATUS    RESTARTS   AGE
+memcached-sample-68848467f5-4h5wt   1/1     Running   0          17s
+
+# 删除memcached实例
+$ kubectl delete -f config/samples/cache_v1alpha1_memcached.yaml
+
+# 卸载CRD
+$ make uninstall
 ```
 
 # 参考
 * [kubebuilder - Quick Start](https://book.kubebuilder.io/quick-start)
+* [kubebuilder - Getting Started](https://book.kubebuilder.io/getting-started)
