@@ -5,7 +5,7 @@
 # 1.初始化项目
 
 ```shell
-mkdir code-generator
+mkdir code-generator && cd code-generator 
 go mod init code-generator
 ```
 
