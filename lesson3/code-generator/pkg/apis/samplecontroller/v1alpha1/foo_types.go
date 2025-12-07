@@ -4,7 +4,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// 生成clientset方法
 // +genclient
+// 生成runtime.Object 接口的 DeepCopyObject 方法
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // Foo is a specification for a Foo resource

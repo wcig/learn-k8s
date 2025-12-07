@@ -45,6 +45,6 @@ kube::codegen::gen_client \
     --with-watch \
     --with-applyconfig \
     --output-dir "${CODEGEN_PKG}/generated" \
-    --output-pkg "${CODEGEN_PKG}/generated" \
+    --output-pkg "code-generator/pkg/generated" \
     --boilerplate "${SCRIPT_DIR}/boilerplate.go.txt" \
     "${CODEGEN_PKG}/apis"

@@ -74,5 +74,101 @@ Generating informer code for 1 targets
 脚本运行后项目目录结构为：
 
 ```shell
+➜  code-generator git:(master) ✗ tree .
+.
+├── examples
+│   ├── crd-status-subresource.yaml
+│   ├── crd.yaml
+│   └── example-foo.yaml
+├── go.mod
+├── go.sum
+├── hack
+│   ├── boilerplate.go.txt
+│   ├── kube_codegen.sh
+│   ├── tools.go
+│   └── update-codegen.sh
+├── main.go
+└── pkg
+    ├── apis
+    │   └── samplecontroller
+    │       └── v1alpha1
+    │           ├── doc.go
+    │           ├── foo_types.go
+    │           ├── zz_generated.deepcopy.go
+    │           └── zz_generated.register.go
+    └── generated
+        ├── applyconfiguration
+        │   ├── internal
+        │   │   └── internal.go
+        │   ├── samplecontroller
+        │   │   └── v1alpha1
+        │   │       ├── foo.go
+        │   │       ├── foospec.go
+        │   │       └── foostatus.go
+        │   └── utils.go
+        ├── clientset
+        │   └── versioned
+        │       ├── clientset.go
+        │       ├── fake
+        │       │   ├── clientset_generated.go
+        │       │   ├── doc.go
+        │       │   └── register.go
+        │       ├── scheme
+        │       │   ├── doc.go
+        │       │   └── register.go
+        │       └── typed
+        │           └── samplecontroller
+        │               └── v1alpha1
+        │                   ├── doc.go
+        │                   ├── fake
+        │                   │   ├── doc.go
+        │                   │   ├── fake_foo.go
+        │                   │   └── fake_samplecontroller_client.go
+        │                   ├── foo.go
+        │                   ├── generated_expansion.go
+        │                   └── samplecontroller_client.go
+        ├── informers
+        │   └── externalversions
+        │       ├── factory.go
+        │       ├── generic.go
+        │       ├── internalinterfaces
+        │       │   └── factory_interfaces.go
+        │       └── samplecontroller
+        │           ├── interface.go
+        │           └── v1alpha1
+        │               ├── foo.go
+        │               └── interface.go
+        └── listers
+            └── samplecontroller
+                └── v1alpha1
+                    ├── expansion_generated.go
+                    └── foo.go
 
+28 directories, 40 files
+```
+
+# 3.测试项目
+
+终端一运行项目：
+
+```shell
+➜  code-generator git:(master) ✗ go run main.go -kubeconfig=/Users/yangbo/.kube/config
+I1207 18:20:54.995914   77793 main.go:87] Starting Foo controller
+Sync/Add/Update for foo default/example-foo
+Sync/Add/Update for foo default/example-foo
+Sync/Add/Update for foo default/example-foo
+I1207 18:21:31.779394   77793 main.go:56] Foo default/example-foo does not exist anymore
+```
+
+终端二创建修改和删除Foo对象：
+
+```shell
+➜  code-generator git:(master) ✗ k apply -f examples/example-foo.yaml
+➜  code-generator git:(master) ✗ k get foo                           
+NAME          AGE
+example-foo   10s
+➜  code-generator git:(master) ✗ k edit foo example-foo        
+foo.samplecontroller.k8s.io/example-foo edited
+➜  code-generator git:(master) ✗ k delete foo example-foo
+foo.samplecontroller.k8s.io "example-foo" deleted
 ```
