@@ -172,3 +172,30 @@ foo.samplecontroller.k8s.io/example-foo edited
 ➜  code-generator git:(master) ✗ k delete foo example-foo
 foo.samplecontroller.k8s.io "example-foo" deleted
 ```
+
+查看选主创建的Lease对象：
+
+```shell
+➜  code-generator git:(master) ✗ k get leases -n kube-system
+NAME                                   HOLDER                                                                      AGE
+apiserver-ybjdvnyq3gczbpeobs4g4e7nj4   apiserver-ybjdvnyq3gczbpeobs4g4e7nj4_392d6467-e511-40d9-aab6-43baa9855beb   53d
+code-generator                         macmini.local                                                               117s
+kube-controller-manager                1c2w-control-plane_2d5ac2a0-8b54-4716-bf37-9557408fbdbb                     153d
+kube-scheduler                         1c2w-control-plane_18894205-8264-4629-8b9f-94c3e93f3412                     153d
+
+➜  code-generator git:(master) ✗ k -n kube-system get lease code-generator -o yaml
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  creationTimestamp: "2026-01-02T07:51:26Z"
+  name: code-generator
+  namespace: kube-system
+  resourceVersion: "5825280"
+  uid: d629a267-a233-4351-88b4-e591841e3916
+spec:
+  acquireTime: "2026-01-02T07:51:26.356512Z"
+  holderIdentity: macmini.local
+  leaseDurationSeconds: 60
+  leaseTransitions: 0
+  renewTime: "2026-01-02T07:53:51.633733Z"
+```

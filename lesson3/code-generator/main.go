@@ -1,15 +1,20 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"os"
 	"time"
 
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/tools/leaderelection"
+	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	"k8s.io/client-go/util/workqueue"
 	"k8s.io/klog/v2"
 
@@ -119,12 +124,12 @@ func main() {
 		klog.Fatal(err)
 	}
 
-	clientset, err := externalclient.NewForConfig(config)
+	externalClientset, err := externalclient.NewForConfig(config)
 	if err != nil {
 		klog.Fatal(err)
 	}
 
-	factory := externalinformers.NewSharedInformerFactory(clientset, time.Second*30)
+	factory := externalinformers.NewSharedInformerFactory(externalClientset, time.Second*30)
 	informer := factory.Samplecontroller().V1alpha1().Foos()
 	queue := workqueue.NewTypedRateLimitingQueue(workqueue.DefaultTypedControllerRateLimiter[string]())
 	_, err = informer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
@@ -154,6 +159,60 @@ func main() {
 	controller := NewController(queue, informer.Lister(), informer.Informer())
 	stop := make(chan struct{})
 	defer close(stop)
-	go controller.Run(1, stop)
+
+	// 无 leader election
+	// go controller.Run(1, stop)
+	// select {}
+
+	// leader election
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		klog.Fatal(err)
+	}
+	lock, err := getLock(clientset)
+	if err != nil {
+		klog.Fatal(err)
+	}
+	// 60秒租期 + 5秒重试 + 15秒续租超时：抢到锁才启动控制器，丢锁就停，保证集群里始终只有一个活跃控制器，故障时自动切换。
+	leaderelection.RunOrDie(context.Background(), leaderelection.LeaderElectionConfig{
+		Lock:          lock,
+		LeaseDuration: 60 * time.Second, // 锁的最长有效期，抢到锁后60s内必须续租，否则视为宕机
+		RenewDeadline: 15 * time.Second, // 续租超时时间，若15s内味完成续租，主动放弃锁（防止脑裂）
+		RetryPeriod:   5 * time.Second,  // 重试间隔，每5s尝试抢锁/续租（退避jitter在0～5s）
+		Callbacks: leaderelection.LeaderCallbacks{
+			// 抢到锁，启动控制器
+			OnStartedLeading: func(ctx context.Context) {
+				klog.Info("leader election win")
+				go controller.Run(1, stop)
+			},
+			// 抢到锁，停止控制器
+			OnStoppedLeading: func() {
+				klog.Info("leader election lost")
+			},
+			// 旁观模式，每当新Leader产生，其他副本打印日志（用于观测切换）
+			OnNewLeader: func(identity string) {
+				klog.Infof("leader election %s win", identity)
+			},
+		},
+	})
 	select {}
+}
+
+func getLock(client *kubernetes.Clientset) (resourcelock.Interface, error) {
+	lockName := "code-generator"
+	lockNamespace := "kube-system"
+	hostname, err := os.Hostname()
+	if err != nil {
+		return nil, err
+	}
+	return resourcelock.New(
+		resourcelock.LeasesResourceLock,
+		lockNamespace,
+		lockName,
+		client.CoreV1(),
+		client.CoordinationV1(),
+		resourcelock.ResourceLockConfig{
+			Identity: hostname,
+		},
+	)
 }
