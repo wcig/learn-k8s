@@ -1,0 +1,49 @@
+# deploy
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foo-deploy
+  template:
+    metadata:
+      labels:
+        app: foo-deploy
+    spec:
+      containers:
+        - image: registry.k8s.io/e2e-test-images/agnhost:2.39
+          name: container-0
+          command:
+            - /agnhost
+            - serve-hostname
+            - --http=true
+            - --port=8080
+          resources:
+            limits:
+              cpu: 100m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+      imagePullSecrets:
+        - name: default-secret
+---
+# service
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo-service
+  annotations:
+    ingress/http: "true"
+    ingress/http-path-prefix: "/foo"
+spec:
+  selector:
+    app: foo-deploy
+  ports:
+    - targetPort: 8080
+      port: 8080
+      protocol: TCP
+  type: ClusterIP
