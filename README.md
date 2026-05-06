@@ -5,9 +5,9 @@
 * [lesson3](lesson3/ingress-manager-example/README.md)：介绍 k8s 基于 service 调谐 ingress 示例
 * [lesson4](lesson4/code-generator/README.md)：介绍 code-generator 生成代码示例
 
-* [lesson2](lesson2/client-go-example/README.md)：介绍使用 kubebuilder 创建并部署一个简单示例 CRD 至 k8s 集群。
-* [lesson3](lesson4/code-generator/README.md)：介绍 code-generator 生成代码示例。
-* [lesson4](lesson4/README.md)：介绍使用 Controller-runtime 实现 controller 示例。
+[//]: # (* [lesson2]&#40;lesson2/client-go-example/README.md&#41;：介绍使用 kubebuilder 创建并部署一个简单示例 CRD 至 k8s 集群。)
+
+[//]: # (* [lesson4]&#40;lesson4/README.md&#41;：介绍使用 Controller-runtime 实现 controller 示例。)
 
 
 工具软件：
