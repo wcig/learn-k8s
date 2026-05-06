@@ -7,13 +7,13 @@ Copyright Example.
 package applyconfiguration
 
 import (
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
-	"code-generator/pkg/generated/applyconfiguration/internal"
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
+	internal "code-generator/pkg/generated/applyconfiguration/internal"
 	samplecontrollerv1alpha1 "code-generator/pkg/generated/applyconfiguration/samplecontroller/v1alpha1"
 
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/testing"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	schema "k8s.io/apimachinery/pkg/runtime/schema"
+	testing "k8s.io/client-go/testing"
 )
 
 // ForKind returns an apply configuration type for the given GroupVersionKind, or nil if no

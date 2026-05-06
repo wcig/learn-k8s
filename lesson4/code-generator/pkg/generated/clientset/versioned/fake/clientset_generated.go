@@ -7,7 +7,7 @@ Copyright Example.
 package fake
 
 import (
-	"code-generator/pkg/generated/applyconfiguration"
+	applyconfiguration "code-generator/pkg/generated/applyconfiguration"
 	clientset "code-generator/pkg/generated/clientset/versioned"
 	samplecontrollerv1alpha1 "code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 	fakesamplecontrollerv1alpha1 "code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1/fake"

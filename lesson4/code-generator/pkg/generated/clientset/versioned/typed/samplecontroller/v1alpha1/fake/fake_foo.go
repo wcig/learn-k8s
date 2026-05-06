@@ -7,18 +7,17 @@ Copyright Example.
 package fake
 
 import (
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
+	samplecontrollerv1alpha1 "code-generator/pkg/generated/applyconfiguration/samplecontroller/v1alpha1"
 	"context"
-	"encoding/json"
+	json "encoding/json"
 	"fmt"
 
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
-	samplecontrollerv1alpha1 "code-generator/pkg/generated/applyconfiguration/samplecontroller/v1alpha1"
-
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/apimachinery/pkg/watch"
-	"k8s.io/client-go/testing"
+	labels "k8s.io/apimachinery/pkg/labels"
+	types "k8s.io/apimachinery/pkg/types"
+	watch "k8s.io/apimachinery/pkg/watch"
+	testing "k8s.io/client-go/testing"
 )
 
 // FakeFoos implements FooInterface

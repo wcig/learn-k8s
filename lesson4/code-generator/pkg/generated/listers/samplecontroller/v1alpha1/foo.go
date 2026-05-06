@@ -7,7 +7,7 @@ Copyright Example.
 package v1alpha1
 
 import (
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/listers"

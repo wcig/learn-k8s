@@ -7,12 +7,11 @@ Copyright Example.
 package externalversions
 
 import (
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
 	"fmt"
 
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
-
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/tools/cache"
+	schema "k8s.io/apimachinery/pkg/runtime/schema"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // GenericInformer is type of SharedIndexInformer which will locate and delegate to other

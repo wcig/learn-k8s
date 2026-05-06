@@ -7,18 +7,17 @@ Copyright Example.
 package externalversions
 
 import (
-	"reflect"
-	"sync"
-	"time"
-
-	"code-generator/pkg/generated/clientset/versioned"
-	"code-generator/pkg/generated/informers/externalversions/internalinterfaces"
-	"code-generator/pkg/generated/informers/externalversions/samplecontroller"
+	versioned "code-generator/pkg/generated/clientset/versioned"
+	internalinterfaces "code-generator/pkg/generated/informers/externalversions/internalinterfaces"
+	samplecontroller "code-generator/pkg/generated/informers/externalversions/samplecontroller"
+	reflect "reflect"
+	sync "sync"
+	time "time"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/tools/cache"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	schema "k8s.io/apimachinery/pkg/runtime/schema"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // SharedInformerOption defines the functional option type for SharedInformerFactory.

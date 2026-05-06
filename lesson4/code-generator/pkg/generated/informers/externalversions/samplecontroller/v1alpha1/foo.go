@@ -7,18 +7,17 @@ Copyright Example.
 package v1alpha1
 
 import (
-	"context"
-	"time"
-
 	samplecontrollerv1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
-	"code-generator/pkg/generated/clientset/versioned"
-	"code-generator/pkg/generated/informers/externalversions/internalinterfaces"
-	"code-generator/pkg/generated/listers/samplecontroller/v1alpha1"
+	versioned "code-generator/pkg/generated/clientset/versioned"
+	internalinterfaces "code-generator/pkg/generated/informers/externalversions/internalinterfaces"
+	v1alpha1 "code-generator/pkg/generated/listers/samplecontroller/v1alpha1"
+	"context"
+	time "time"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/watch"
-	"k8s.io/client-go/tools/cache"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	watch "k8s.io/apimachinery/pkg/watch"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // FooInformer provides access to a shared informer and lister for

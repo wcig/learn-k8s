@@ -7,14 +7,13 @@ Copyright Example.
 package versioned
 
 import (
+	samplecontrollerv1alpha1 "code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 	"fmt"
 	"net/http"
 
-	samplecontrollerv1alpha1 "code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
-
-	"k8s.io/client-go/discovery"
-	"k8s.io/client-go/rest"
-	"k8s.io/client-go/util/flowcontrol"
+	discovery "k8s.io/client-go/discovery"
+	rest "k8s.io/client-go/rest"
+	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
 
 type Interface interface {

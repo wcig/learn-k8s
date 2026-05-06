@@ -7,13 +7,12 @@ Copyright Example.
 package internalinterfaces
 
 import (
-	"time"
-
-	"code-generator/pkg/generated/clientset/versioned"
+	versioned "code-generator/pkg/generated/clientset/versioned"
+	time "time"
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/client-go/tools/cache"
+	runtime "k8s.io/apimachinery/pkg/runtime"
+	cache "k8s.io/client-go/tools/cache"
 )
 
 // NewInformerFunc takes versioned.Interface and time.Duration to return a SharedIndexInformer.

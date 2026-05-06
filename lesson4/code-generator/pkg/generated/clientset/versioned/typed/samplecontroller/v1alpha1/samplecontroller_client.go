@@ -7,12 +7,11 @@ Copyright Example.
 package v1alpha1
 
 import (
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
+	"code-generator/pkg/generated/clientset/versioned/scheme"
 	"net/http"
 
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
-	"code-generator/pkg/generated/clientset/versioned/scheme"
-
-	"k8s.io/client-go/rest"
+	rest "k8s.io/client-go/rest"
 )
 
 type SamplecontrollerV1alpha1Interface interface {

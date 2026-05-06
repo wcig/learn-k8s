@@ -7,8 +7,8 @@ Copyright Example.
 package samplecontroller
 
 import (
-	"code-generator/pkg/generated/informers/externalversions/internalinterfaces"
-	"code-generator/pkg/generated/informers/externalversions/samplecontroller/v1alpha1"
+	internalinterfaces "code-generator/pkg/generated/informers/externalversions/internalinterfaces"
+	v1alpha1 "code-generator/pkg/generated/informers/externalversions/samplecontroller/v1alpha1"
 )
 
 // Interface provides access to each of this group's versions.

@@ -35,11 +35,15 @@ mkdir -p pkg/apis/samplecontroller/v1alpha1
 mkdir pkg/generated
 ```
 
-准备类型文件 foo_types.go 和 doc.go，拷贝至 pkg/apis/samplecontroller/v1alpha1 目录，从 kubernetes/code-generator 项目下拷贝 hack 目录至本地，简单修改 update-codegen.sh，准备 tools.go 文件并拷贝至 hack 目录。此时项目结构为：
+从 [sample-controller](https://github.com/kubernetes/sample-controller) 示例代码，拷贝 foo_types.go、doc.go、artifacts/examples 目录下文件和 hack 目录至本地，简单修改 update-codegen.sh，准备 tools.go 文件并拷贝至 hack 目录。此时项目结构为：
 
 ```shell
 ➜  code-generator git:(master) ✗ tree .                  
 .
+├── examples
+│   ├── crd-status-subresource.yaml
+│   ├── crd.yaml
+│   └── example-foo.yaml
 ├── go.mod
 ├── go.sum
 ├── hack
@@ -152,7 +156,10 @@ Generating informer code for 1 targets
 终端一运行项目：
 
 ```shell
-➜  code-generator git:(master) ✗ go run main.go -kubeconfig=/Users/yangbo/.kube/config
+# 加载crd至集群
+➜  code-generator git:(master) ✗ kubectl apply -f examples/crd.yaml
+customresourcedefinition.apiextensions.k8s.io/foos.samplecontroller.k8s.io created
+➜  code-generator git:(master) ✗ go run main.go
 I1207 18:20:54.995914   77793 main.go:87] Starting Foo controller
 Sync/Add/Update for foo default/example-foo
 Sync/Add/Update for foo default/example-foo
@@ -163,27 +170,27 @@ I1207 18:21:31.779394   77793 main.go:56] Foo default/example-foo does not exist
 终端二创建修改和删除Foo对象：
 
 ```shell
-➜  code-generator git:(master) ✗ k apply -f examples/example-foo.yaml
-➜  code-generator git:(master) ✗ k get foo                           
+➜  code-generator git:(master) ✗ kubectl apply -f examples/example-foo.yaml
+➜  code-generator git:(master) ✗ kubectl get foo                           
 NAME          AGE
 example-foo   10s
-➜  code-generator git:(master) ✗ k edit foo example-foo        
+➜  code-generator git:(master) ✗ kubectl edit foo example-foo        
 foo.samplecontroller.k8s.io/example-foo edited
-➜  code-generator git:(master) ✗ k delete foo example-foo
+➜  code-generator git:(master) ✗ kubectl delete foo example-foo
 foo.samplecontroller.k8s.io "example-foo" deleted
 ```
 
 查看选主创建的Lease对象：
 
 ```shell
-➜  code-generator git:(master) ✗ k get leases -n kube-system
+➜  code-generator git:(master) ✗ kubectl get leases -n kube-system
 NAME                                   HOLDER                                                                      AGE
 apiserver-ybjdvnyq3gczbpeobs4g4e7nj4   apiserver-ybjdvnyq3gczbpeobs4g4e7nj4_392d6467-e511-40d9-aab6-43baa9855beb   53d
 code-generator                         macmini.local                                                               117s
 kube-controller-manager                1c2w-control-plane_2d5ac2a0-8b54-4716-bf37-9557408fbdbb                     153d
 kube-scheduler                         1c2w-control-plane_18894205-8264-4629-8b9f-94c3e93f3412                     153d
 
-➜  code-generator git:(master) ✗ k -n kube-system get lease code-generator -o yaml
+➜  code-generator git:(master) ✗ kubectl -n kube-system get lease code-generator -o yaml
 apiVersion: coordination.k8s.io/v1
 kind: Lease
 metadata:

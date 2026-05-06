@@ -7,10 +7,10 @@ Copyright Example.
 package fake
 
 import (
-	"code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
+	v1alpha1 "code-generator/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 
-	"k8s.io/client-go/rest"
-	"k8s.io/client-go/testing"
+	rest "k8s.io/client-go/rest"
+	testing "k8s.io/client-go/testing"
 )
 
 type FakeSamplecontrollerV1alpha1 struct {

@@ -7,7 +7,7 @@ Copyright Example.
 package v1alpha1
 
 import (
-	"code-generator/pkg/generated/informers/externalversions/internalinterfaces"
+	internalinterfaces "code-generator/pkg/generated/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.

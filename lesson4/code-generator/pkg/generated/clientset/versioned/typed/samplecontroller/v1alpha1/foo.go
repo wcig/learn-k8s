@@ -7,16 +7,15 @@ Copyright Example.
 package v1alpha1
 
 import (
+	v1alpha1 "code-generator/pkg/apis/samplecontroller/v1alpha1"
+	samplecontrollerv1alpha1 "code-generator/pkg/generated/applyconfiguration/samplecontroller/v1alpha1"
+	scheme "code-generator/pkg/generated/clientset/versioned/scheme"
 	"context"
 
-	"code-generator/pkg/apis/samplecontroller/v1alpha1"
-	samplecontrollerv1alpha1 "code-generator/pkg/generated/applyconfiguration/samplecontroller/v1alpha1"
-	"code-generator/pkg/generated/clientset/versioned/scheme"
-
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/apimachinery/pkg/watch"
-	"k8s.io/client-go/gentype"
+	types "k8s.io/apimachinery/pkg/types"
+	watch "k8s.io/apimachinery/pkg/watch"
+	gentype "k8s.io/client-go/gentype"
 )
 
 // FoosGetter has a method to return a FooInterface.

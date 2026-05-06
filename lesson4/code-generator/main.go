@@ -110,12 +110,11 @@ func (c *Controller) runWorker() {
 	}
 }
 
-// go run main.go -kubeconfig=/Users/yangbo/.kube/config
 func main() {
 	var kubeconfig string
 	var master string
 
-	flag.StringVar(&kubeconfig, "kubeconfig", "", "absolute path to the kubeconfig file")
+	flag.StringVar(&kubeconfig, "kubeconfig", clientcmd.RecommendedHomeFile, "absolute path to the kubeconfig file")
 	flag.StringVar(&master, "master", "", "master url")
 	flag.Parse()
 
