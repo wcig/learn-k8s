@@ -35,7 +35,7 @@ mkdir -p pkg/apis/samplecontroller/v1alpha1
 mkdir pkg/generated
 ```
 
-从 [sample-controller](https://github.com/kubernetes/sample-controller) 示例代码，拷贝 foo_types.go、doc.go、artifacts/examples 目录下文件和 hack 目录至本地，简单修改 update-codegen.sh，准备 tools.go 文件并拷贝至 hack 目录。此时项目结构为：
+从 [sample-controller](https://github.com/kubernetes/sample-controller/tree/release-1.31) 示例代码，拷贝 foo_types.go、doc.go、artifacts/examples 目录下文件和 hack 目录至本地，简单修改 update-codegen.sh，准备 tools.go 文件并拷贝至 hack 目录。此时项目结构为：
 
 ```shell
 ➜  code-generator git:(master) ✗ tree .                  
